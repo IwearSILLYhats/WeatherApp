@@ -21,13 +21,15 @@ function pullData (data, day) {
         condition: forecast.forecastday[day].day.condition.text,
         dayofWeek: forecast.forecastday[day].date,
         icon: forecast.forecastday[day].day.condition.icon,
-        temp_F: current.temp_f.toString().slice(0,2),
-        temp_C: current.temp_c.toString().slice(0,2),
+        temp_F: Math.floor(current.temp_f),
+        temp_C: Math.floor(current.temp_c),
         precip: `Precipitation: ${forecast.forecastday[day].day.daily_chance_of_rain}%`,
-        humidity: `Humidity: ${forecast.forecastday[day].day.avghumidity}%`,
-        windMPH: `Wind: ${current.wind_mph} mph`,
+        humidity: `Humidity: ${Math.floor(forecast.forecastday[day].day.avghumidity)}%`,
+        windMPH: `Wind: ${Math.floor(current.wind_mph)}mph`,
         weekday: weekdayCheck(forecast.forecastday[day].hour[0].time_epoch)
     };
+    const locationOutput = document.querySelector('.location header');
+    locationOutput.textContent = pulledData.region;
     fillData(pulledData);
     dayBuilder(forecast.forecastday);
 };
@@ -35,7 +37,6 @@ function pullData (data, day) {
 function fillData (data){
     const outputs = [...document.querySelectorAll('.output')];
     const [location, icon, tempF, tempC, precip, hum, wind, dayte, wType] = [...outputs];
-    location.textContent = data.region;
     icon.src = data.icon;
     tempF.textContent = data.temp_F;
     tempC.textContent = data.temp_C;
@@ -60,28 +61,29 @@ function dayBuilder (dayData) {
         icon.src = `${item.day.condition.icon}`;
         const tempRangeF = document.createElement('p');
         tempRangeF.classList.add('tempF')
-        tempRangeF.textContent = `${item.day.maxtemp_f.toString().slice(0,2)}° - ${item.day.mintemp_f.toString().slice(0,2)}°`;
+        tempRangeF.textContent = `${Math.floor(item.day.maxtemp_f)}° - ${Math.floor(item.day.mintemp_f)}°`;
         const tempRangeC = document.createElement('p');
         tempRangeC.classList.add('tempC');
-        tempRangeC.textContent = `${item.day.maxtemp_c.toString().slice(0,2)}° -${item.day.mintemp_c.toString().slice(0,2)}°`;
+        tempRangeC.textContent = `${Math.floor(item.day.maxtemp_c)}° - ${Math.floor(item.day.mintemp_c)}°`;
         if(localStorage.getItem('tempPref') === 'celsius'){
             tempRangeC.classList.add('active');
         }
         else{
             tempRangeF.classList.add('active');
         }
-        // const dayObj = {
-        //     location.textContent = data.region;
-        //     icon.src = data.icon;
-        //     tempF.textContent = data.temp_F;
-        //     tempC.textContent = data.temp_C;
-        //     precip.textContent = data.precip;
-        //     hum.textContent = data.humidity;
-        //     wind.textContent = data.windMPH;
-        //     dayte.textContent = data.weekday;
-        //     wType.textContent = data.condition;
-        // }
-    
+        const dayObj = {
+            icon: item.day.condition.icon,
+            temp_F: Math.floor(item.day.avgtemp_f),
+            temp_C: Math.floor(item.day.avgtemp_c),
+            precip: `Precipitation: ${Math.floor(item.day.daily_chance_of_rain)}%`,
+            humidity: `Humidity: ${Math.floor(item.day.avghumidity)}%`,
+            windMPH: `Wind: ${Math.floor(item.day.maxwind_mph)}mph`,
+            weekday: weekdayCheck(item.hour[0].time_epoch),
+            condition: item.day.condition.text
+        }
+        container.addEventListener('click', (e) => {
+            fillData(dayObj)}
+            );
         container.appendChild(weekday);
         container.appendChild(icon);
         container.appendChild(tempRangeF);
@@ -144,7 +146,6 @@ function init () {
     const textField = document.querySelector('.textField');
     textField.addEventListener('keypress', (e) => {
         if (e.key === 'Enter'){
-            console.log('querying');
             e.preventDefault();
             getWeather(e.target.value);
         }
