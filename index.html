@@ -1,1 +1,43 @@
-<!doctype html><html><head><meta charset="utf-8"/><title>Webpack App</title><link rel="stylesheet" href="dist/style.css"><script defer="defer" src="main.js"></script></head><body><input name="textField" id="" class="textField" placeholder="City/State or Zip"><div class="main"><header class="location output">Results for the ZOO!</header><div class="data"><div class="icon">SunIcon</div><div class="tempF">TempF</div><div class="tempC">TempC</div><div class="tempToggle">F|C</div><div class="PHW"><div class="precip">Precipitation</div><div class="hum">Humidity</div><div class="wind">Wind</div></div><div class="weatherToday">Weather Today</div></div><div class="hourly"><header><label for="tempBtn">Temp</label> <input type="radio" name="TPW" id="tempBtn"> <label for="precipBtn">Precipitation</label> <input type="radio" name="TPW" id="precipBtn"> <label for="windBtn">Wind</label> <input type="radio" name="TPW" id="windBtn"></header><div class="hourlyChart">Hourly Charts</div></div><div class="weekly"></div></div></body></html>
+<!DOCTYPE html>
+<html><head><script defer src="main.js"></script></head>
+    <head>
+        <meta charset="utf-8" />
+        <title>Webpack App</title>
+    <body>
+        <input type="text" name="textField" id="" class="textField" placeholder="City/State or Zip">
+        <div class="main">
+            <div class="location">
+                <p>Results for</p>
+                <header class="output">
+                     the Moon!
+                </header>
+            </div>
+            <div class="data">
+                <div class="details">
+                    <img class="icon output">
+                    <div class="tempF output">51</div>
+                    <div class="tempC output">11</div>
+                    <div>
+                        <input type="radio" name="tempToggle" id="tempF" checked>
+                        <label for="tempF">°F</label>
+                        |
+                        <input type="radio" name="tempToggle" id="tempC">
+                        <label for="tempC">°C</label>
+                    </div>
+                    <div class="PHW">
+                        <div class="precip output">Precipitation</div>
+                        <div class="hum output">Humidity</div>
+                        <div class="wind output">Wind</div>
+                    </div>
+                </div>
+                <div class="activeWeather">
+                    <div class="weatherToday">Weather</div>
+                    <div class="day output">Moon</div>
+                    <div class="condition output">Moon</div>
+                </div>
+            </div>
+            <div class="weekly">Weekly Forecast Goes Here</div>
+        </div>
+    </body>
+    
+</html>
